@@ -5,9 +5,9 @@
   <subtitle>热爱C++与易语言的程序员  QQ:3476146</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://studentcms.com/"/>
+  <link href="www.loop.wiki/"/>
   <updated>2019-05-24T11:13:43.982Z</updated>
-  <id>http://studentcms.com/</id>
+  <id>www.loop.wiki/</id>
   
   <author>
     <name>循环不计次</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://studentcms.com/2019/05/24/hello-world/"/>
-    <id>http://studentcms.com/2019/05/24/hello-world/</id>
+    <link href="www.loop.wiki/2019/05/24/hello-world/"/>
+    <id>www.loop.wiki/2019/05/24/hello-world/</id>
     <published>2019-05-24T10:44:41.460Z</published>
     <updated>2019-05-24T11:13:43.982Z</updated>
     
@@ -34,7 +34,7 @@
     
     </summary>
     
-      <category term="web" scheme="http://studentcms.com/categories/web/"/>
+      <category term="web" scheme="www.loop.wiki/categories/web/"/>
     
     
   </entry>
