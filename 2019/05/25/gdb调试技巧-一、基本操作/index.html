@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>[gdb调试技巧]一、基本操作 | 循环不计次 | 热爱C++与易语言的程序员  QQ:3476146</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="gdb">
+    <meta name="description" content="1.编译参数编译时加上一个-g。默认编译生成的可执行文件是无法使用 gdb 来跟踪或调试的，因为可执行程序中没有可供 gdb 调试使用的特殊信息，为了将必要的调试信息整合到可执行文件中，我们便需要用到 -g 选项，这样生成的可执行程序，倘若出现问题，便可以使用 gdb 找出问题具体出现的位置，便于问题的解决。2.开始调试gdb xxx(可执行程序)3.查看源码在gdb中输入l,不能完全显示就多次l">
+<meta name="keywords" content="gdb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[gdb调试技巧]一、基本操作">
+<meta property="og:url" content="http://www.loop.wiki/2019/05/25/gdb调试技巧-一、基本操作/index.html">
+<meta property="og:site_name" content="循环不计次">
+<meta property="og:description" content="1.编译参数编译时加上一个-g。默认编译生成的可执行文件是无法使用 gdb 来跟踪或调试的，因为可执行程序中没有可供 gdb 调试使用的特殊信息，为了将必要的调试信息整合到可执行文件中，我们便需要用到 -g 选项，这样生成的可执行程序，倘若出现问题，便可以使用 gdb 找出问题具体出现的位置，便于问题的解决。2.开始调试gdb xxx(可执行程序)3.查看源码在gdb中输入l,不能完全显示就多次l">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-05-25T15:47:04.168Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[gdb调试技巧]一、基本操作">
+<meta name="twitter:description" content="1.编译参数编译时加上一个-g。默认编译生成的可执行文件是无法使用 gdb 来跟踪或调试的，因为可执行程序中没有可供 gdb 调试使用的特殊信息，为了将必要的调试信息整合到可执行文件中，我们便需要用到 -g 选项，这样生成的可执行程序，倘若出现问题，便可以使用 gdb 找出问题具体出现的位置，便于问题的解决。2.开始调试gdb xxx(可执行程序)3.查看源码在gdb中输入l,不能完全显示就多次l">
+    
+        <link rel="alternate" type="application/atom+xml" title="循环不计次" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">循环不计次</h5>
+          <a href="mailto:3476146@qq.com" title="3476146@qq.com" class="mail">3476146@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                文章
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                分类页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/loopsoftp" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/2064069792/profile?topnav=1&wvr=6&is_all=1" target="_blank">
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.jianshu.com/u/41226036b3f2" target="_blank">
+                <i class="icon icon-lg icon-简书"></i>
+                简书
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">[gdb调试技巧]一、基本操作</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="搜尋">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">[gdb调试技巧]一、基本操作</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-05-25T15:43:35.000Z" itemprop="datePublished" class="page-time">
+  2019-05-25
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/C/">C++</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-编译参数"><span class="post-toc-number">1.</span> <span class="post-toc-text">1.编译参数</span></a></li></ol><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编译时加上一个-g。默认编译生成的可执行文件是无法使用-gdb-来跟踪或调试的，因为可执行程序中没有可供-gdb-调试使用的特殊信息，为了将必要的调试信息整合到可执行文件中，我们便需要用到-g-选项，这样生成的可执行程序，倘若出现问题，便可以使用-gdb-找出问题具体出现的位置，便于问题的解决。"><span class="post-toc-number"></span> <span class="post-toc-text">编译时加上一个-g。默认编译生成的可执行文件是无法使用 gdb 来跟踪或调试的，因为可执行程序中没有可供 gdb 调试使用的特殊信息，为了将必要的调试信息整合到可执行文件中，我们便需要用到 -g 选项，这样生成的可执行程序，倘若出现问题，便可以使用 gdb 找出问题具体出现的位置，便于问题的解决。</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-开始调试"><span class="post-toc-number">1.</span> <span class="post-toc-text">2.开始调试</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#gdb-xxx-可执行程序"><span class="post-toc-number"></span> <span class="post-toc-text">gdb xxx(可执行程序)</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-查看源码"><span class="post-toc-number">1.</span> <span class="post-toc-text">3.查看源码</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#在gdb中输入l-不能完全显示就多次l"><span class="post-toc-number"></span> <span class="post-toc-text">在gdb中输入l,不能完全显示就多次l</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-下断点"><span class="post-toc-number">1.</span> <span class="post-toc-text">4.下断点</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#例子1：b-0x5859c0。”“号是必须加在地址前的，0x5859c0为函数指针的地址"><span class="post-toc-number"></span> <span class="post-toc-text">例子1：b 0x5859c0。”“号是必须加在地址前的，0x5859c0为函数指针的地址</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#5-查看变量的值"><span class="post-toc-number">1.</span> <span class="post-toc-text">5.查看变量的值</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#1-程序变量"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">(1).程序变量</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#2-查看数组"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">(2).查看数组</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#3-输出格式"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">(3).输出格式</span></a></li></ol></li></ol>
+        </li></nav>
+    </aside>
+
+
+<article id="post-gdb调试技巧-一、基本操作" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">[gdb调试技巧]一、基本操作</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-05-25 23:43:35" datetime="2019-05-25T15:43:35.000Z" itemprop="datePublished">2019-05-25</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/C/">C++</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h4 id="1-编译参数"><a href="#1-编译参数" class="headerlink" title="1.编译参数"></a>1.编译参数</h4><h2 id="编译时加上一个-g。默认编译生成的可执行文件是无法使用-gdb-来跟踪或调试的，因为可执行程序中没有可供-gdb-调试使用的特殊信息，为了将必要的调试信息整合到可执行文件中，我们便需要用到-g-选项，这样生成的可执行程序，倘若出现问题，便可以使用-gdb-找出问题具体出现的位置，便于问题的解决。"><a href="#编译时加上一个-g。默认编译生成的可执行文件是无法使用-gdb-来跟踪或调试的，因为可执行程序中没有可供-gdb-调试使用的特殊信息，为了将必要的调试信息整合到可执行文件中，我们便需要用到-g-选项，这样生成的可执行程序，倘若出现问题，便可以使用-gdb-找出问题具体出现的位置，便于问题的解决。" class="headerlink" title="编译时加上一个-g。默认编译生成的可执行文件是无法使用 gdb 来跟踪或调试的，因为可执行程序中没有可供 gdb 调试使用的特殊信息，为了将必要的调试信息整合到可执行文件中，我们便需要用到 -g 选项，这样生成的可执行程序，倘若出现问题，便可以使用 gdb 找出问题具体出现的位置，便于问题的解决。"></a>编译时加上一个-g。默认编译生成的可执行文件是无法使用 gdb 来跟踪或调试的，因为可执行程序中没有可供 gdb 调试使用的特殊信息，为了将必要的调试信息整合到可执行文件中，我们便需要用到 -g 选项，这样生成的可执行程序，倘若出现问题，便可以使用 gdb 找出问题具体出现的位置，便于问题的解决。</h2><h4 id="2-开始调试"><a href="#2-开始调试" class="headerlink" title="2.开始调试"></a>2.开始调试</h4><h2 id="gdb-xxx-可执行程序"><a href="#gdb-xxx-可执行程序" class="headerlink" title="gdb xxx(可执行程序)"></a>gdb xxx(可执行程序)</h2><h4 id="3-查看源码"><a href="#3-查看源码" class="headerlink" title="3.查看源码"></a>3.查看源码</h4><h2 id="在gdb中输入l-不能完全显示就多次l"><a href="#在gdb中输入l-不能完全显示就多次l" class="headerlink" title="在gdb中输入l,不能完全显示就多次l"></a>在gdb中输入l,不能完全显示就多次l</h2><h4 id="4-下断点"><a href="#4-下断点" class="headerlink" title="4.下断点"></a>4.下断点</h4><p>方式1、根据函数名，查找符号（symbol）设置断点 </p>
+<p>例子：b func_name</p>
+<p>方式2、根据代码行位置设置断点 </p>
+<p>例子：b /src/codefile.cc:81</p>
+<p>方式3、根据运行时的地址设置断点 </p>
+<h2 id="例子1：b-0x5859c0。”“号是必须加在地址前的，0x5859c0为函数指针的地址"><a href="#例子1：b-0x5859c0。”“号是必须加在地址前的，0x5859c0为函数指针的地址" class="headerlink" title="例子1：b 0x5859c0。”“号是必须加在地址前的，0x5859c0为函数指针的地址"></a>例子1：b <em>0x5859c0。”</em>“号是必须加在地址前的，0x5859c0为函数指针的地址</h2><h4 id="5-查看变量的值"><a href="#5-查看变量的值" class="headerlink" title="5.查看变量的值"></a>5.查看变量的值</h4><p>在gdb中p或者print</p>
+<h5 id="1-程序变量"><a href="#1-程序变量" class="headerlink" title="(1).程序变量"></a>(1).程序变量</h5><p>在GDB中，你可以随时查看以下三种变量的值：</p>
+<p>1、全局变量（所有文件可见的）</p>
+<p>2、静态全局变量（当前文件可见的）</p>
+<p>3、局部变量（当前Scope可见的）</p>
+<p>如果你的局部变量和全局变量发生冲突（也就是重名），一般情况下是局部变量会隐藏全局变量，也就是说，如果一个全局变量和一个函数中的局部变量同名时，如果当前停止点在函数中，用print显示出的变量的值会是函数中的局部变量的值。如果此时你想查看全局变量的值时，你可以使用“::”操作符：</p>
+<p>file::variable</p>
+<p>function::variable</p>
+<p>可以通过这种形式指定你所想查看的变量，是哪个文件中的或是哪个函数中的。</p>
+<h5 id="2-查看数组"><a href="#2-查看数组" class="headerlink" title="(2).查看数组"></a>(2).查看数组</h5><p>有时候，你需要查看一段连续的内存空间的值。比如数组的一段，或是动态分配的数据的大小。你可以使用GDB的“@”操作符，“@”的左边是第一个内存的地址的值，“@”的右边则你你想查看内存的长度。例如，你的程序中有这样的语句：</p>
+<p>int <em>array = (int </em>) malloc (len * sizeof (int));</p>
+<p>于是，在GDB调试过程中，你可以以如下命令显示出这个动态数组的取值：</p>
+<p>p *array@len </p>
+<p>如果是静态数组的话，可以直接用print数组名，就可以显示数组中所有数据的内容了。</p>
+<h5 id="3-输出格式"><a href="#3-输出格式" class="headerlink" title="(3).输出格式"></a>(3).输出格式</h5><p>一般来说，GDB会根据变量的类型输出变量的值。但你也可以自定义GDB的输出的格式。例如，你想输出一个整数的十六进制，或是二进制来查看这个整型变量的中的位的情况。要做到这样，你可以使用GDB的数据显示格式：</p>
+<p>x 按十六进制格式显示变量。</p>
+<p>d 按十进制格式显示变量。</p>
+<p>u 按十六进制格式显示无符号整型。</p>
+<p>o 按八进制格式显示变量。</p>
+<p>t 按二进制格式显示变量。</p>
+<p>a 按十六进制格式显示变量。</p>
+<p>c 按字符格式显示变量。</p>
+<p>f 按浮点数格式显示变量。</p>
+<p>(4).查看内存</p>
+<p>你可以使用examine命令（简写是x）来查看内存地址中的值。x命令的语法如下所示：</p>
+<p>x/</p>
+<p>n、f、u是可选的参数。</p>
+<p>n 是一个正整数，表示显示内存的长度，也就是说从当前地址向后显示几个地址的内容。</p>
+<p>f 表示显示的格式，参见上面。如果地址所指的是字符串，那么格式可以是s，如果地十是指令地址，那么格式可以是i。</p>
+<p>u 表示从当前地址往后请求的字节数，如果不指定的话，GDB默认是4个bytes。u参数可以用下面的字符来代替，b表示单字节，h表示双字节，w表示四字节，g表示八字节。当我们指定了字节长度后，GDB会从指内存定的内存地址开始，读写指定字节，并把其当作一个值取出来。</p>
+<p>表示一个内存地址。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最後更新時間：<time datetime="2019-05-25T15:47:04.168Z" itemprop="dateUpdated">2019-05-25 23:47:04</time>
+</span><br>
+
+
+        
+        一杯茶，一包烟，坐一天
+        
+    </div>
+    
+    <footer>
+        <a href="http://www.loop.wiki">
+            <img src="/img/avatar.png" alt="循环不计次">
+            循环不计次
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gdb/">gdb</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.loop.wiki/2019/05/25/gdb调试技巧-一、基本操作/&title=《[gdb调试技巧]一、基本操作》 — 循环不计次&pic=http://www.loop.wiki/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.loop.wiki/2019/05/25/gdb调试技巧-一、基本操作/&title=《[gdb调试技巧]一、基本操作》 — 循环不计次&source=C++、Elanguage的分享天地" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.loop.wiki/2019/05/25/gdb调试技巧-一、基本操作/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[gdb调试技巧]一、基本操作》 — 循环不计次&url=http://www.loop.wiki/2019/05/25/gdb调试技巧-一、基本操作/&via=http://www.loop.wiki" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.loop.wiki/2019/05/25/gdb调试技巧-一、基本操作/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/05/25/FFMpeg编程系列-二、小试牛刀Mp4ToWmv/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">[FFMpeg编程系列]二、小试牛刀Mp4ToWmv</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "m2VYBGHEWzFB1tdeBGIuavMW-gzGzoHsz",
+            appKey: "AJnYolwlQ1HWn15Jn9a7iyHV",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>本部落格係採用<a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">創用 CC 姓名標示 4.0 國際 授權條款授權</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>循环不计次 &copy; 2018 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.loop.wiki/2019/05/25/gdb调试技巧-一、基本操作/&title=《[gdb调试技巧]一、基本操作》 — 循环不计次&pic=http://www.loop.wiki/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.loop.wiki/2019/05/25/gdb调试技巧-一、基本操作/&title=《[gdb调试技巧]一、基本操作》 — 循环不计次&source=C++、Elanguage的分享天地" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.loop.wiki/2019/05/25/gdb调试技巧-一、基本操作/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[gdb调试技巧]一、基本操作》 — 循环不计次&url=http://www.loop.wiki/2019/05/25/gdb调试技巧-一、基本操作/&via=http://www.loop.wiki" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.loop.wiki/2019/05/25/gdb调试技巧-一、基本操作/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACpklEQVR42u3awW7CMBAEUP7/p6nUE4eSznjtlEovJ0TA8cshdmb38YiP5/fx+vn1SH6fjPZu/OtrbTjw8PDwlqZ+PVxydteY17+sbwEeHh7eMV6+GOSk/Crt1JM54+Hh4X0C75qRfM5vVrtNx8PDw/tk3loCsLbAtLcDDw8P707eJG7IeWukm7IWPDw8vANVpM/5fLy+h4eHh7dUVV974OYTSloKRrPFw8PDO8DLY9nkMu2WOl8M8pA3emPAw8PD28TL/zYJDqLgtdwh/7Ko4OHh4W3ltX+YbKwnxbA2bsbDw8M7x0u2pHkJqg0O2kgivzV4eHh453h5UJs0AbRn8yWkiB7yRAQPDw9vwJsXpfJYIQFMbvQPbwx4eHh4B3j5JfMdeltUmyw/b28NHh4e3i28tgA2aSDI44a8BaEOI/Dw8PBKXv4Wvxbdtt+vYepGBDw8PLwBr22favEnNuhFqQwPDw/vAG+tNJVHCS0gXzCKRQUPDw/vFt78MV2X+ctmgmLOeHh4eFt5a4X/uhBVtiZcb/SLX+Lh4eHdztvVGpXEE/mCkVPx8PDwTvAmQ+cl/+Th3sYij70HHh4e3vjZONny5sWzyaYZDw8P7295ewdNymbJIrHWmhC9N+Dh4eGNeXvjg3zqyfftMoOHh4d3mpcHB/lDf63hIN+mJ7cADw8P7x7e3rJTdPmgmWDSiICHh4d3gjdvCDgRDa9dBQ8PD+8e3rM82ofyZFO+FjHj4eHhnebtqr/nl5wsKu1GHA8PD+8cL59uvuFuJ5rEDYtlOTw8PLxjvFGGMS59rYUjo3wFDw8P7xberof49QjzBgU8PDy8/8hLgte1s/nIeHh4eKd5bRixKz9eK5vlYQceHh7eCd6kAJbEwXnhvw0g6kgXDw8Pb8r7Av4Su2B8sagFAAAAAElFTkSuQmCC" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+lazyScripts.push('//s95.cnzz.com/z_stat.php?id=1261691942&web_id=1261691942')
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
