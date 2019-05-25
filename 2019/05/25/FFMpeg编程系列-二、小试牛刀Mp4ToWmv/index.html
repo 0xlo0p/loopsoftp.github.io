@@ -21,19 +21,19 @@
     
     
     <meta name="keywords" content="FFMpeg">
-    <meta name="description" content="name 价格 数量       香蕉 $1 5    苹果 $1 6    草莓 $1 7     本文用到的函数: |序号 |函数名 |参数 |注释 ||1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器|2 | avformat_open_input|int avformat_open_input(AVForm">
+    <meta name="description" content="本文用到的函数: |序号 |函数名 |参数 |注释|1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器||2 | avformat_open_input|int avformat_open_input(AVFormatContext ps, const char url, AVInputFormat fmt, AVDict">
 <meta name="keywords" content="FFMpeg">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[FFMpeg编程系列]二、小试牛刀Mp4ToWmv">
 <meta property="og:url" content="http://www.loop.wiki/2019/05/25/FFMpeg编程系列-二、小试牛刀Mp4ToWmv/index.html">
 <meta property="og:site_name" content="循环不计次">
-<meta property="og:description" content="name 价格 数量       香蕉 $1 5    苹果 $1 6    草莓 $1 7     本文用到的函数: |序号 |函数名 |参数 |注释 ||1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器|2 | avformat_open_input|int avformat_open_input(AVForm">
+<meta property="og:description" content="本文用到的函数: |序号 |函数名 |参数 |注释|1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器||2 | avformat_open_input|int avformat_open_input(AVFormatContext ps, const char url, AVInputFormat fmt, AVDict">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9326181-afe25e919ac6812b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-05-25T16:01:25.744Z">
+<meta property="og:updated_time" content="2019-05-25T16:03:15.239Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[FFMpeg编程系列]二、小试牛刀Mp4ToWmv">
-<meta name="twitter:description" content="name 价格 数量       香蕉 $1 5    苹果 $1 6    草莓 $1 7     本文用到的函数: |序号 |函数名 |参数 |注释 ||1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器|2 | avformat_open_input|int avformat_open_input(AVForm">
+<meta name="twitter:description" content="本文用到的函数: |序号 |函数名 |参数 |注释|1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器||2 | avformat_open_input|int avformat_open_input(AVFormatContext ps, const char url, AVInputFormat fmt, AVDict">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9326181-afe25e919ac6812b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
     
         <link rel="alternate" type="application/atom+xml" title="循环不计次" href="/atom.xml">
@@ -194,36 +194,8 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <table>
-<thead>
-<tr>
-<th>name</th>
-<th>价格</th>
-<th>数量  </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>香蕉</td>
-<td>$1</td>
-<td>5 </td>
-</tr>
-<tr>
-<td>苹果</td>
-<td>$1</td>
-<td>6 </td>
-</tr>
-<tr>
-<td>草莓</td>
-<td>$1</td>
-<td>7 </td>
-</tr>
-</tbody>
-</table>
-<p>本文用到的函数:</p>
-<p>|序号 |函数名 |参数 |注释 |<br>|1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器<br>|2 | avformat_open_input|int avformat_open_input(AVFormatContext <strong>ps, const char <em>url, AVInputFormat </em>fmt, AVDictionary </strong>options) | 创建一个输入的上下文环境 </p>
-<p>| 3 | avformat_alloc_output_context2 | int avformat_alloc_output_context2(AVFormatContext *<em>ctx, AVOutputFormat </em>oformat,const char <em>format_name, const char </em>filename);| 创建一个输出的上下文环境 | </p>
-<p>| 4 | avformat_new_stream|AVStream <em>avformat_new_stream(AVFormatContext </em>s, const AVCodec *c) | 在指定上下文中插入一个Stream成员 | </p>
+            <p>本文用到的函数:</p>
+<p>|序号 |函数名 |参数 |注释<br>|1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器|<br>|2 | avformat_open_input|int avformat_open_input(AVFormatContext <strong>ps, const char <em>url, AVInputFormat </em>fmt, AVDictionary </strong>options) | 创建一个输入的上下文环境|<br>|3 | avformat_alloc_output_context2 | int avformat_alloc_output_context2(AVFormatContext *<em>ctx, AVOutputFormat </em>oformat,const char <em>format_name, const char </em>filename);| 创建一个输出的上下文环境 |<br>|4 | avformat_new_stream|AVStream <em>avformat_new_stream(AVFormatContext </em>s, const AVCodec *c) | 在指定上下文中插入一个Stream成员 | </p>
 <p>| 5 | avcodec_parameters_copy | int avcodec_parameters_copy(AVCodecParameters <em>dst, const AVCodecParameters </em>src) | copyAVCodec的上下文 | </p>
 <p>|6|avio_open|int avio_open(AVIOContext *<em>s, const char </em>url, int flags)|打开FFmpeg的输入输出文件| </p>
 <p>|7|avformat_write_header|int avformat_write_header(AVFormatContext *s, AVDictionary **options)|写视频文件头| </p>
@@ -243,7 +215,7 @@
     <div class="content">
         
 <span class="post-time">
-    Last updated: <time datetime="2019-05-25T16:01:25.744Z" itemprop="dateUpdated">2019-05-26 00:01:25</time>
+    Last updated: <time datetime="2019-05-25T16:03:15.239Z" itemprop="dateUpdated">2019-05-26 00:03:15</time>
 </span><br>
 
 
