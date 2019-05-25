@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.loop.wiki/"/>
-  <updated>2019-05-24T12:54:19.621Z</updated>
+  <updated>2019-05-25T03:24:16.396Z</updated>
   <id>http://www.loop.wiki/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>[FFMpeg编程系列]一、开发环境配置</title>
+    <link href="http://www.loop.wiki/2019/05/25/FFMpeg%E7%BC%96%E7%A8%8B%E7%B3%BB%E5%88%97-%E4%B8%80%E3%80%81%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+    <id>http://www.loop.wiki/2019/05/25/FFMpeg编程系列-一、开发环境配置/</id>
+    <published>2019-05-25T03:16:52.000Z</published>
+    <updated>2019-05-25T03:24:16.396Z</updated>
+    
+    <content type="html"><![CDATA[<p>#SDK下载</p><p>###下载地址:<a href="http://ffmpeg.club/ffmpeg_download.html" title="With a Title" target="_blank" rel="noopener">点击下载</a>.<br><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://upload-images.jianshu.io/upload_images/9326181-43622ecdf26d6313.png?imageMogr2/auto-orient/" alt="avatar" title>                </div>                <div class="image-caption">avatar</div>            </figure><br><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://upload-images.jianshu.io/upload_images/9326181-43622ecdf26d6313.png?imageMogr2/auto-orient/" alt="在这里我们选择Windows开发,以下都为Windows系统为主讲述" title="optional">                </div>                <div class="image-caption">optional</div>            </figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;#SDK下载&lt;/p&gt;
+&lt;p&gt;###下载地址:&lt;a href=&quot;http://ffmpeg.club/ffmpeg_download.html&quot; title=&quot;With a Title&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;点击下载&lt;/a&gt;.&lt;br&gt;
+      
+    
+    </summary>
+    
+      <category term="C++" scheme="http://www.loop.wiki/categories/C/"/>
+    
+    
+      <category term="FFMpeg" scheme="http://www.loop.wiki/tags/FFMpeg/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
