@@ -21,19 +21,19 @@
     
     
     <meta name="keywords" content="FFMpeg">
-    <meta name="description" content="name 价格 数量       香蕉 $1 5    苹果 $1 6    草莓 $1 7     本文用到的函数: | 序号 | 函数名 | 参数 | 注释 | | ————- |:————-:| —–:| —–:|  |1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器 |  | 2 | avformat_op">
+    <meta name="description" content="name 价格 数量       香蕉 $1 5    苹果 $1 6    草莓 $1 7     本文用到的函数: |序号 |函数名 |参数 |注释 ||1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器|2 | avformat_open_input|int avformat_open_input(AVForm">
 <meta name="keywords" content="FFMpeg">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[FFMpeg编程系列]二、小试牛刀Mp4ToWmv">
 <meta property="og:url" content="http://www.loop.wiki/2019/05/25/FFMpeg编程系列-二、小试牛刀Mp4ToWmv/index.html">
 <meta property="og:site_name" content="循环不计次">
-<meta property="og:description" content="name 价格 数量       香蕉 $1 5    苹果 $1 6    草莓 $1 7     本文用到的函数: | 序号 | 函数名 | 参数 | 注释 | | ————- |:————-:| —–:| —–:|  |1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器 |  | 2 | avformat_op">
+<meta property="og:description" content="name 价格 数量       香蕉 $1 5    苹果 $1 6    草莓 $1 7     本文用到的函数: |序号 |函数名 |参数 |注释 ||1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器|2 | avformat_open_input|int avformat_open_input(AVForm">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9326181-afe25e919ac6812b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-05-25T15:59:10.615Z">
+<meta property="og:updated_time" content="2019-05-25T16:01:25.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[FFMpeg编程系列]二、小试牛刀Mp4ToWmv">
-<meta name="twitter:description" content="name 价格 数量       香蕉 $1 5    苹果 $1 6    草莓 $1 7     本文用到的函数: | 序号 | 函数名 | 参数 | 注释 | | ————- |:————-:| —–:| —–:|  |1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器 |  | 2 | avformat_op">
+<meta name="twitter:description" content="name 价格 数量       香蕉 $1 5    苹果 $1 6    草莓 $1 7     本文用到的函数: |序号 |函数名 |参数 |注释 ||1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器|2 | avformat_open_input|int avformat_open_input(AVForm">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9326181-afe25e919ac6812b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
     
         <link rel="alternate" type="application/atom+xml" title="循环不计次" href="/atom.xml">
@@ -135,7 +135,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -206,28 +206,22 @@
 <tr>
 <td>香蕉</td>
 <td>$1</td>
-<td>5</td>
-<td></td>
+<td>5 </td>
 </tr>
 <tr>
 <td>苹果</td>
 <td>$1</td>
-<td>6</td>
-<td></td>
+<td>6 </td>
 </tr>
 <tr>
 <td>草莓</td>
 <td>$1</td>
-<td>7</td>
-<td></td>
+<td>7 </td>
 </tr>
 </tbody>
 </table>
 <p>本文用到的函数:</p>
-<p>| 序号 | 函数名 | 参数 | 注释 |</p>
-<p>| ————- |:————-:| —–:| —–:| </p>
-<p>|1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器 | </p>
-<p>| 2 | avformat_open_input|int avformat_open_input(AVFormatContext <strong>ps, const char <em>url, AVInputFormat </em>fmt, AVDictionary </strong>options) | 创建一个输入的上下文环境 | </p>
+<p>|序号 |函数名 |参数 |注释 |<br>|1 | av_register_all | void av_register_all(void) | 注册所有的封装器和解封器<br>|2 | avformat_open_input|int avformat_open_input(AVFormatContext <strong>ps, const char <em>url, AVInputFormat </em>fmt, AVDictionary </strong>options) | 创建一个输入的上下文环境 </p>
 <p>| 3 | avformat_alloc_output_context2 | int avformat_alloc_output_context2(AVFormatContext *<em>ctx, AVOutputFormat </em>oformat,const char <em>format_name, const char </em>filename);| 创建一个输出的上下文环境 | </p>
 <p>| 4 | avformat_new_stream|AVStream <em>avformat_new_stream(AVFormatContext </em>s, const AVCodec *c) | 在指定上下文中插入一个Stream成员 | </p>
 <p>| 5 | avcodec_parameters_copy | int avcodec_parameters_copy(AVCodecParameters <em>dst, const AVCodecParameters </em>src) | copyAVCodec的上下文 | </p>
@@ -249,7 +243,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-05-25T15:59:10.615Z" itemprop="dateUpdated">2019-05-25 23:59:10</time>
+    Last updated: <time datetime="2019-05-25T16:01:25.744Z" itemprop="dateUpdated">2019-05-26 00:01:25</time>
 </span><br>
 
 
@@ -445,7 +439,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">
