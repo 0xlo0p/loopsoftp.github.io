@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.loop.wiki/"/>
-  <updated>2019-05-25T03:32:32.496Z</updated>
+  <updated>2019-05-25T03:41:43.595Z</updated>
   <id>http://www.loop.wiki/</id>
   
   <author>
@@ -21,15 +21,15 @@
     <link href="http://www.loop.wiki/2019/05/25/FFMpeg%E7%BC%96%E7%A8%8B%E7%B3%BB%E5%88%97-%E4%B8%80%E3%80%81%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
     <id>http://www.loop.wiki/2019/05/25/FFMpeg编程系列-一、开发环境配置/</id>
     <published>2019-05-25T03:16:52.000Z</published>
-    <updated>2019-05-25T03:32:32.496Z</updated>
+    <updated>2019-05-25T03:41:43.595Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="SDK下载"><a href="#SDK下载" class="headerlink" title="SDK下载"></a>SDK下载</h1><h3 id="下载地址-点击下载"><a href="#下载地址-点击下载" class="headerlink" title="下载地址: 点击下载"></a>下载地址: <a href="http://ffmpeg.club/ffmpeg_download.html" title="With a Title" target="_blank" rel="noopener">点击下载</a></h3><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://upload-images.jianshu.io/upload_images/9326181-43622ecdf26d6313.png?imageMogr2/auto-orient/" alt="avatar" title="在这里我们选择Windows开发,以下都为Windows系统为主讲述">                </div>                <div class="image-caption">在这里我们选择Windows开发,以下都为Windows系统为主讲述</div>            </figure>]]></content>
+    <content type="html"><![CDATA[<h1 id="SDK下载"><a href="#SDK下载" class="headerlink" title="SDK下载"></a>SDK下载</h1><h4 id="下载地址-点击下载"><a href="#下载地址-点击下载" class="headerlink" title="下载地址: 点击下载"></a>下载地址: <a href="http://ffmpeg.club/ffmpeg_download.html" title="With a Title" target="_blank" rel="noopener">点击下载</a></h4><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://upload-images.jianshu.io/upload_images/9326181-43622ecdf26d6313.png?imageMogr2/auto-orient/" alt="avatar" title="在这里我们选择Windows开发,以下都为Windows系统为主讲述">                </div>                <div class="image-caption">在这里我们选择Windows开发,以下都为Windows系统为主讲述</div>            </figure><figure class="image-bubble">                <div class="img-lightbox">                    <div class="overlay"></div>                    <img src="https://upload-images.jianshu.io/upload_images/9326181-321e42dae9d409e6.png?imageMogr2/auto-orient/" alt="avatar" title="文件目录结构如上">                </div>                <div class="image-caption">文件目录结构如上</div>            </figure><h4 id="bin-包含动态链接库dll-我们也后面也会将这个文件夹设为工程的输出目录和调试目录"><a href="#bin-包含动态链接库dll-我们也后面也会将这个文件夹设为工程的输出目录和调试目录" class="headerlink" title="bin:包含动态链接库dll,我们也后面也会将这个文件夹设为工程的输出目录和调试目录"></a>bin:包含动态链接库dll,我们也后面也会将这个文件夹设为工程的输出目录和调试目录</h4><h4 id="include-头文件目录"><a href="#include-头文件目录" class="headerlink" title="include:头文件目录"></a>include:头文件目录</h4><h4 id="lib-库目录"><a href="#lib-库目录" class="headerlink" title="lib:库目录"></a>lib:库目录</h4><h4 id="src-我们的工程存放目录"><a href="#src-我们的工程存放目录" class="headerlink" title="src:我们的工程存放目录"></a>src:我们的工程存放目录</h4><hr>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;h1 id=&quot;SDK下载&quot;&gt;&lt;a href=&quot;#SDK下载&quot; class=&quot;headerlink&quot; title=&quot;SDK下载&quot;&gt;&lt;/a&gt;SDK下载&lt;/h1&gt;&lt;h3 id=&quot;下载地址-点击下载&quot;&gt;&lt;a href=&quot;#下载地址-点击下载&quot; class=&quot;headerlink&quot; ti
+        &lt;h1 id=&quot;SDK下载&quot;&gt;&lt;a href=&quot;#SDK下载&quot; class=&quot;headerlink&quot; title=&quot;SDK下载&quot;&gt;&lt;/a&gt;SDK下载&lt;/h1&gt;&lt;h4 id=&quot;下载地址-点击下载&quot;&gt;&lt;a href=&quot;#下载地址-点击下载&quot; class=&quot;headerlink&quot; ti
       
     
     </summary>
