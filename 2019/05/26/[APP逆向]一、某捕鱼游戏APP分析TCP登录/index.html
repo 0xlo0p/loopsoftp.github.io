@@ -14,25 +14,24 @@
     
     
     
-    <title>[Linux多进程编程]一、多进程的状态  | ѭ�����ƴ� | �Ȱ�C++�������Եĳ���Ա  QQ:3476146</title>
+    <title>No title | ѭ�����ƴ� | �Ȱ�C++�������Եĳ���Ա  QQ:3476146</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
-    <meta name="keywords" content="Linux多进程编程">
-    <meta name="description" content="1.进程的执行状态：新建 就绪 运行 阻塞 退出（睡眠） 2.僵尸进程进程运行结束，父进程尚未使用wait()函数族（如使用waitpid()函数）等系统调用来“收尸”，即等待父进程销毁它。处于该状态下的进程“实体”已经放弃了几乎所有的内存空间，没有任何可执行代码，也不能调度，仅仅在进程列表保留一个位置，记载该进程的退出状态等信息供其他进程收集，该子进程将会持续处于僵尸状态。僵尸进程将会导致资源浪">
-<meta name="keywords" content="Linux多进程编程">
+    <meta name="keywords" content>
+    <meta name="description" content="C++��Elanguage�ķ������">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Linux多进程编程]一、多进程的状态 ">
-<meta property="og:url" content="http://www.loop.wiki/2019/05/26/Linux多进程编程-一、多进程的状态/index.html">
+<meta property="og:title" content="No title">
+<meta property="og:url" content="http://www.loop.wiki/2019/05/26/[APP逆向]一、某捕鱼游戏APP分析TCP登录/index.html">
 <meta property="og:site_name" content="ѭ�����ƴ�">
-<meta property="og:description" content="1.进程的执行状态：新建 就绪 运行 阻塞 退出（睡眠） 2.僵尸进程进程运行结束，父进程尚未使用wait()函数族（如使用waitpid()函数）等系统调用来“收尸”，即等待父进程销毁它。处于该状态下的进程“实体”已经放弃了几乎所有的内存空间，没有任何可执行代码，也不能调度，仅仅在进程列表保留一个位置，记载该进程的退出状态等信息供其他进程收集，该子进程将会持续处于僵尸状态。僵尸进程将会导致资源浪">
+<meta property="og:description" content="C++��Elanguage�ķ������">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-25T16:27:00.911Z">
+<meta property="og:updated_time" content="2019-05-26T02:44:23.928Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[Linux多进程编程]一、多进程的状态 ">
-<meta name="twitter:description" content="1.进程的执行状态：新建 就绪 运行 阻塞 退出（睡眠） 2.僵尸进程进程运行结束，父进程尚未使用wait()函数族（如使用waitpid()函数）等系统调用来“收尸”，即等待父进程销毁它。处于该状态下的进程“实体”已经放弃了几乎所有的内存空间，没有任何可执行代码，也不能调度，仅仅在进程列表保留一个位置，记载该进程的退出状态等信息供其他进程收集，该子进程将会持续处于僵尸状态。僵尸进程将会导致资源浪">
+<meta name="twitter:title" content="No title">
+<meta name="twitter:description" content="C++��Elanguage�ķ������">
     
         <link rel="alternate" type="application/atom+xml" title="ѭ�����ƴ�" href="/atom.xml">
     
@@ -127,7 +126,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">[Linux多进程编程]一、多进程的状态 </div>
+        <div class="flex-col header-title ellipsis">No title</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -149,15 +148,13 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">[Linux多进程编程]一、多进程的状态 </h1>
+        <h1 class="title">No title</h1>
         <h5 class="subtitle">
             
-                <time datetime="2019-05-25T16:25:24.000Z" itemprop="datePublished" class="page-time">
+                <time datetime="2019-05-26T02:44:23.928Z" itemprop="datePublished" class="page-time">
   2019-05-26
 </time>
 
-
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/C/">C++</a></li></ul>
 
             
         </h5>
@@ -171,24 +168,15 @@
 
 <div class="container body-wrap">
     
-    <aside class="post-widget">
-        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
-            <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#1-进程的执行状态："><span class="post-toc-number">1.</span> <span class="post-toc-text">1.进程的执行状态：</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#2-僵尸进程"><span class="post-toc-number">2.</span> <span class="post-toc-text">2.僵尸进程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#3-孤儿进程"><span class="post-toc-number">3.</span> <span class="post-toc-text">3.孤儿进程</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#4-查看状态的方法"><span class="post-toc-number">4.</span> <span class="post-toc-text">4.查看状态的方法</span></a></li></ol>
-        </nav>
-    </aside>
 
-
-<article id="post-Linux多进程编程-一、多进程的状态" class="post-article article-type-post fade" itemprop="blogPost">
+<article id="post-[APP逆向]一、某捕鱼游戏APP分析TCP登录" class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">[Linux多进程编程]一、多进程的状态 </h1>
+        <h1 class="post-card-title">No title</h1>
         <div class="post-meta">
-            <time class="post-time" title="2019-05-26 00:25:24" datetime="2019-05-25T16:25:24.000Z" itemprop="datePublished">2019-05-26</time>
+            <time class="post-time" title="2019-05-26 10:44:23" datetime="2019-05-26T02:44:23.928Z" itemprop="datePublished">2019-05-26</time>
 
             
-	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/C/">C++</a></li></ul>
-
 
 
             
@@ -199,19 +187,7 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h4 id="1-进程的执行状态："><a href="#1-进程的执行状态：" class="headerlink" title="1.进程的执行状态："></a>1.进程的执行状态：</h4><p>新建 就绪 运行 阻塞 退出（睡眠）</p>
-<h4 id="2-僵尸进程"><a href="#2-僵尸进程" class="headerlink" title="2.僵尸进程"></a>2.僵尸进程</h4><p>进程运行结束，父进程尚未使用wait()函数族（如使用waitpid()函数）等系统调用来“收尸”，即等待父进程销毁它。处于该状态下的进程“实体”已经放弃了几乎所有的内存空间，没有任何可执行代码，也不能调度，仅仅在进程列表保留一个位置，记载该进程的退出状态等信息供其他进程收集，该子进程将会持续处于僵尸状态。僵尸进程将会导致资源浪费。</p>
-<h4 id="3-孤儿进程"><a href="#3-孤儿进程" class="headerlink" title="3.孤儿进程"></a>3.孤儿进程</h4><p>父进程在子进程之前退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。孤儿进程将被init进程(进程号为1)所收养，并由init进程对它们完成状态收集工作，最终还是会死掉。</p>
-<h4 id="4-查看状态的方法"><a href="#4-查看状态的方法" class="headerlink" title="4.查看状态的方法"></a>4.查看状态的方法</h4><p>进程的状态,在Linux中可以用ps命令输出查看:</p>
-<p>stat 中的参数意义如下：</p>
-<p>  D 不可中断 Uninterruptible（usually IO）</p>
-<p>  R 正在运行，或在队列中的进程</p>
-<p>  S 处于休眠状态</p>
-<p>  T 停止或被追踪</p>
-<p>  Z 僵尸进程</p>
-<p>  W 进入内存交换（从内核2.6开始无效）</p>
-<p>  X  死掉的进程</p>
-
+            
         </div>
 
         <blockquote class="post-copyright">
@@ -219,7 +195,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-05-25T16:27:00.911Z" itemprop="dateUpdated">2019-05-26 00:27:00</time>
+    最后更新时间：<time datetime="2019-05-26T02:44:23.928Z" itemprop="dateUpdated">2019-05-26 10:44:23</time>
 </span><br>
 
 
@@ -245,8 +221,6 @@
 
         <div class="post-footer">
             
-	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux多进程编程/">Linux多进程编程</a></li></ul>
-
 
             
 <div class="page-share-wrap">
@@ -255,7 +229,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.loop.wiki/2019/05/26/Linux多进程编程-一、多进程的状态/&title=《[Linux多进程编程]一、多进程的状态 》 — ѭ�����ƴ�&pic=http://www.loop.wiki/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.loop.wiki/2019/05/26/[APP逆向]一、某捕鱼游戏APP分析TCP登录/&title=《No title》 — ѭ�����ƴ�&pic=http://www.loop.wiki/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -265,22 +239,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.loop.wiki/2019/05/26/Linux多进程编程-一、多进程的状态/&title=《[Linux多进程编程]一、多进程的状态 》 — ѭ�����ƴ�&source=C++��Elanguage�ķ������" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.loop.wiki/2019/05/26/[APP逆向]一、某捕鱼游戏APP分析TCP登录/&title=《No title》 — ѭ�����ƴ�&source=C++��Elanguage�ķ������" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.loop.wiki/2019/05/26/Linux多进程编程-一、多进程的状态/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.loop.wiki/2019/05/26/[APP逆向]一、某捕鱼游戏APP分析TCP登录/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[Linux多进程编程]一、多进程的状态 》 — ѭ�����ƴ�&url=http://www.loop.wiki/2019/05/26/Linux多进程编程-一、多进程的状态/&via=http://www.loop.wiki" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《No title》 — ѭ�����ƴ�&url=http://www.loop.wiki/2019/05/26/[APP逆向]一、某捕鱼游戏APP分析TCP登录/&via=http://www.loop.wiki" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.loop.wiki/2019/05/26/Linux多进程编程-一、多进程的状态/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.loop.wiki/2019/05/26/[APP逆向]一、某捕鱼游戏APP分析TCP登录/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -300,21 +274,14 @@
     </div>
 
     
-<nav class="post-nav flex-row flex-justify-between">
-  
-    <div class="waves-block waves-effect prev">
-      <a href="/2019/05/26/APP逆向-一、某捕鱼游戏APP分析TCP登录/" id="post-prev" class="post-nav-link">
-        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
-        <h4 class="title">[APP逆向]一、某捕鱼游戏APP分析TCP登录</h4>
-      </a>
-    </div>
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
   
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2019/05/26/Linux多进程编程-一、基本函数/" id="post-next" class="post-nav-link">
+      <a href="/2019/05/26/APP逆向-一、某捕鱼游戏APP分析TCP登录/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">[Linux多进程编程]一、基本函数 </h4>
+        <h4 class="title">[APP逆向]一、某捕鱼游戏APP分析TCP登录</h4>
       </a>
     </div>
   
@@ -437,7 +404,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.loop.wiki/2019/05/26/Linux多进程编程-一、多进程的状态/&title=《[Linux多进程编程]一、多进程的状态 》 — ѭ�����ƴ�&pic=http://www.loop.wiki/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.loop.wiki/2019/05/26/[APP逆向]一、某捕鱼游戏APP分析TCP登录/&title=《No title》 — ѭ�����ƴ�&pic=http://www.loop.wiki/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -447,22 +414,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.loop.wiki/2019/05/26/Linux多进程编程-一、多进程的状态/&title=《[Linux多进程编程]一、多进程的状态 》 — ѭ�����ƴ�&source=C++��Elanguage�ķ������" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.loop.wiki/2019/05/26/[APP逆向]一、某捕鱼游戏APP分析TCP登录/&title=《No title》 — ѭ�����ƴ�&source=C++��Elanguage�ķ������" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.loop.wiki/2019/05/26/Linux多进程编程-一、多进程的状态/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.loop.wiki/2019/05/26/[APP逆向]一、某捕鱼游戏APP分析TCP登录/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[Linux多进程编程]一、多进程的状态 》 — ѭ�����ƴ�&url=http://www.loop.wiki/2019/05/26/Linux多进程编程-一、多进程的状态/&via=http://www.loop.wiki" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《No title》 — ѭ�����ƴ�&url=http://www.loop.wiki/2019/05/26/[APP逆向]一、某捕鱼游戏APP分析TCP登录/&via=http://www.loop.wiki" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.loop.wiki/2019/05/26/Linux多进程编程-一、多进程的状态/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.loop.wiki/2019/05/26/[APP逆向]一、某捕鱼游戏APP分析TCP登录/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -473,7 +440,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACyUlEQVR42u3aQW4jMQwEwPz/01lgTwGytrtJKTEWNSfDmdiqOYhykx8f8fX59/r6On/n6/uPPnPz/oELDw8Pb7T0R9ee1N75fIX5mvHw8PBu85Ji0BaJfOmz4hR9Gh4eHt6v8r7fGW3NwRafn4fx8PDw/ideEkPky31+Dx4eHt478JIwIg8dkuBgEzRcyVrw8PDwYt4mCPit19f7e3h4eHijrvqmYMzi1zzsiFaIh4eHd4GXH5efL2IW2rbfkh/Ho0wFDw8Pb8RLNvF2ibOoYlYGXhy18fDw8C7wNtv9rN21wSQrfJFS4+Hh4a15p5pVeYLajizkBewfK8TDw8O7wLvdqm95s/GCY0NXeHh4eN1uXGzoeXOrbYZtDtDRf+Hh4eFd4OUbdzsukEcY+aE5P5Tj4eHhneIlN+XRw36LL7b1ZJwLDw8P7wJvH562lWd2UD7wAwAPDw/vKC9v+bdfvIlc26bX8JcBHh4eXslrj7D5gTsJMpK/5pHEw6EBPDw8vKO8ZCtvGe3xejYiUD9EPDw8vEO8WWOpHUVt72nHuR4+dDw8PLwLvFkEkA+VbkrFbLx11QbDw8PDC3j7D0q25n2M2xakF0NXeHh4eAvebESgjW7zYYL9gNeq1uHh4eHF0e1mECofVN0sPQl5H2YteHh4eBd4myRj0zZrj8htsIuHh4d3g7cZimrjidlDbAsDHh4e3m3e5+jKj9ptsJuUkHyAAA8PD+8GLw8C8lw0Lx6zQ3Y+CoaHh4d3gzcrCe24QB2/zkLb748YDw8P7wIvv/LAt/2C9iC+GVPAw8PDO8Vrj7w/P4yVFIYon8bDw8M7ypvFqXlk0D7W9jNftMHw8PDw3obXjrS25aR9oHh4eHjvxtt02GZloI05os4eHh4e3iHerGWV//bfF5482ljFuHh4eHgBb9+marfy/GA9i3TbWAQPDw8v5v0B802xhpjZqzAAAAAASUVORK5CYII=" alt="微信分享二维码">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAN4AAADeCAAAAAB3DOFrAAACuklEQVR42u3awWorMQwF0Pz/T7fQVSFkciVZmSzOrEp4zfj4gaVe+fGIn5+/5/mT/0/+Pc+/Vf388IOHh4fXWvqr55l3/bLkd6+/5xqZrxkPDw9vm3ddDPLCkB/3CTLZsjcWPDw8vFt5ySGeI/Nykmw3Hh4e3nfyeq1zHjf0Wnw8PDy8u3jJ182jhGqjnDfrB7IWPDw8vJhXHYB9w8+L8z08PDy8wVS92tRWW/B5AXizTjw8PLwFXvLi/OzthRTXjMkwDA8PD2+DdypCTULb68igGitEK8TDw8Nb4FVfUL1kkI/BTl0miIoEHh4e3oDXO3zzsX3eQFeDiehPAjw8PLw1Xh4W9MKF3kInFxfw8PDw9nj54Z6HvHkUm68hWU8h2MXDw8Mb86pRQrWZTramGjTkBQkPDw/vLO9Uc5yQqiO0XnF68/+Gh4eHd5Q3b5d77fh8ghc103h4eHiHeJOSUB199S5vHQiI8fDw8NZ41UO8Gq3mhScpRYUNwsPDw/sgL//kUXx6V/+TNh0PDw9vm9e7iJ9vQd74Vi8cRCvHw8PDW+ZVX1m9ijofa+UxLh4eHt4e77rBrQ6fkqFULxSujsfw8PDw9ni9uKE67uoFxAeuc+Hh4eEt8PJhVX7Q55cGqgFuUgxebiUeHh7eUd7GsZ5fNcjflcPw8PDwtnm9awG9QVdvoc1ah4eHh7fGy0fy1UKSD9iq1EKAgoeHh/cR3qmxVnUj8rJUyGnx8PDwjvLmB3G+HXmxyd87uhOBh4eH1+L1jt3kK6rXC5KNq7b+eHh4eHu8Uw1uHvtOGvokjMDDw8P7DK83OcqHYZNSlP/7l4UBDw8P71ZefnwnYcE8zojuRODh4eHdxOuNx6oBRy90OFAY8PDw8BZyzmT0VR2PJYFvE4aHh4e3xptHAz3SpBhUtwYPDw/vEO8XHlCccQ5ubvkAAAAASUVORK5CYII=" alt="微信分享二维码">
 </div>
 
 
