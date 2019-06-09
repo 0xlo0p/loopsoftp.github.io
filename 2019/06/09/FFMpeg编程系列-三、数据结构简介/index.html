@@ -21,18 +21,18 @@
     
     
     <meta name="keywords" content="FFMpeg">
-    <meta name="description" content="1.AVFormatContext封装格式上下文结构体，也是统领全局的结构体，保存了视频文件封装 格式相关信息  iformat：输入视频的AVInputFormat nb_streams ：输入视频的AVStream 个数 streams ：输入视频的AVStream []数组 duration ：输入视频的时长（以微秒为单位） bit_rate ：输入视频的码率  ##2.AVInputFor">
+    <meta name="description" content="1.AVFormatContext封装格式上下文结构体，也是统领全局的结构体，保存了视频文件封装 格式相关信息  iformat：输入视频的AVInputFormat nb_streams ：输入视频的AVStream 个数 streams ：输入视频的AVStream []数组 duration ：输入视频的时长（以微秒为单位） bit_rate ：输入视频的码率  2.AVInputForma">
 <meta name="keywords" content="FFMpeg">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[FFMpeg编程系列]三、数据结构简介">
 <meta property="og:url" content="http://www.loop.wiki/2019/06/09/FFMpeg编程系列-三、数据结构简介/index.html">
 <meta property="og:site_name" content="循环不计次">
-<meta property="og:description" content="1.AVFormatContext封装格式上下文结构体，也是统领全局的结构体，保存了视频文件封装 格式相关信息  iformat：输入视频的AVInputFormat nb_streams ：输入视频的AVStream 个数 streams ：输入视频的AVStream []数组 duration ：输入视频的时长（以微秒为单位） bit_rate ：输入视频的码率  ##2.AVInputFor">
+<meta property="og:description" content="1.AVFormatContext封装格式上下文结构体，也是统领全局的结构体，保存了视频文件封装 格式相关信息  iformat：输入视频的AVInputFormat nb_streams ：输入视频的AVStream 个数 streams ：输入视频的AVStream []数组 duration ：输入视频的时长（以微秒为单位） bit_rate ：输入视频的码率  2.AVInputForma">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-09T07:51:48.366Z">
+<meta property="og:updated_time" content="2019-06-09T07:57:56.255Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[FFMpeg编程系列]三、数据结构简介">
-<meta name="twitter:description" content="1.AVFormatContext封装格式上下文结构体，也是统领全局的结构体，保存了视频文件封装 格式相关信息  iformat：输入视频的AVInputFormat nb_streams ：输入视频的AVStream 个数 streams ：输入视频的AVStream []数组 duration ：输入视频的时长（以微秒为单位） bit_rate ：输入视频的码率  ##2.AVInputFor">
+<meta name="twitter:description" content="1.AVFormatContext封装格式上下文结构体，也是统领全局的结构体，保存了视频文件封装 格式相关信息  iformat：输入视频的AVInputFormat nb_streams ：输入视频的AVStream 个数 streams ：输入视频的AVStream []数组 duration ：输入视频的时长（以微秒为单位） bit_rate ：输入视频的码率  2.AVInputForma">
     
         <link rel="alternate" type="application/atom+xml" title="循环不计次" href="/atom.xml">
     
@@ -133,7 +133,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -174,7 +174,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-AVFormatContext"><span class="post-toc-number">1.</span> <span class="post-toc-text">1.AVFormatContext</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-AVStream"><span class="post-toc-number">2.</span> <span class="post-toc-text">3.AVStream</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#time-base的介绍"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">time_base的介绍</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-AVCodecContext"><span class="post-toc-number">3.</span> <span class="post-toc-text">4.AVCodecContext</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-AVCodec"><span class="post-toc-number">4.</span> <span class="post-toc-text">5.AVCodec</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-AVPacket"><span class="post-toc-number">5.</span> <span class="post-toc-text">6.AVPacket</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-AVFrame"><span class="post-toc-number">6.</span> <span class="post-toc-text">7.AVFrame</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#1-AVFormatContext"><span class="post-toc-number">1.</span> <span class="post-toc-text">1.AVFormatContext</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2-AVInputFormat"><span class="post-toc-number">2.</span> <span class="post-toc-text">2.AVInputFormat</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#3-AVStream"><span class="post-toc-number">3.</span> <span class="post-toc-text">3.AVStream</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#time-base的介绍"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">time_base的介绍</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#4-AVCodecContext"><span class="post-toc-number">4.</span> <span class="post-toc-text">4.AVCodecContext</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#5-AVCodec"><span class="post-toc-number">5.</span> <span class="post-toc-text">5.AVCodec</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#6-AVPacket"><span class="post-toc-number">6.</span> <span class="post-toc-text">6.AVPacket</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#7-AVFrame"><span class="post-toc-number">7.</span> <span class="post-toc-text">7.AVFrame</span></a></li></ol>
         </nav>
     </aside>
 
@@ -207,7 +207,7 @@
 <li>duration ：输入视频的时长（以微秒为单位）</li>
 <li>bit_rate ：输入视频的码率</li>
 </ul>
-<p>##2.AVInputFormat<br>每种封装格式（例如FLV, MKV, MP4, AVI）对应一个该结构体</p>
+<h2 id="2-AVInputFormat"><a href="#2-AVInputFormat" class="headerlink" title="2.AVInputFormat"></a>2.AVInputFormat</h2><p>每种封装格式（例如FLV, MKV, MP4, AVI）对应一个该结构体</p>
 <ul>
 <li>name：封装格式名称</li>
 <li>long_name：封装格式的长名称</li>
@@ -263,7 +263,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2019-06-09T07:51:48.366Z" itemprop="dateUpdated">2019-06-09 15:51:48</time>
+    Last updated: <time datetime="2019-06-09T07:57:56.255Z" itemprop="dateUpdated">2019-06-09 15:57:56</time>
 </span><br>
 
 
@@ -452,7 +452,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>博客内容遵循 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
         </p>
     </div>
     <div class="bottom">
