@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>[FFMpeg]四、ffmpeg关于timebase的理解 | 循环不计次 | 热爱C++与易语言的程序员  QQ:3476146 Mail:admin@studentcms.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="FFMpeg">
+    <meta name="description" content="一.ffmpeg的分层结构写这篇文章的时候先把ffmpeg分层问题大致说明一下，我们按照最常见的  “转码程序” 和 “摄像头采集” 以及 “播放器” 三个模型总结。 1：转码转码基本流程：flv格式数据–&amp;gt;h264/aac数据–&amp;gt;yuv/pcm数据–&amp;gt;h264/aac数据–&amp;gt;mp4格式数据。a：我们把flv格式数据或者mp4格式数据这一层叫做mux/demux层或者复用层">
+<meta name="keywords" content="FFMpeg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[FFMpeg]四、ffmpeg关于timebase的理解">
+<meta property="og:url" content="http://www.loop.wiki/2019/06/09/FFMpeg编程系列-四、ffmpeg关于timebase的理解/index.html">
+<meta property="og:site_name" content="循环不计次">
+<meta property="og:description" content="一.ffmpeg的分层结构写这篇文章的时候先把ffmpeg分层问题大致说明一下，我们按照最常见的  “转码程序” 和 “摄像头采集” 以及 “播放器” 三个模型总结。 1：转码转码基本流程：flv格式数据–&amp;gt;h264/aac数据–&amp;gt;yuv/pcm数据–&amp;gt;h264/aac数据–&amp;gt;mp4格式数据。a：我们把flv格式数据或者mp4格式数据这一层叫做mux/demux层或者复用层">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-09T08:42:19.452Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[FFMpeg]四、ffmpeg关于timebase的理解">
+<meta name="twitter:description" content="一.ffmpeg的分层结构写这篇文章的时候先把ffmpeg分层问题大致说明一下，我们按照最常见的  “转码程序” 和 “摄像头采集” 以及 “播放器” 三个模型总结。 1：转码转码基本流程：flv格式数据–&amp;gt;h264/aac数据–&amp;gt;yuv/pcm数据–&amp;gt;h264/aac数据–&amp;gt;mp4格式数据。a：我们把flv格式数据或者mp4格式数据这一层叫做mux/demux层或者复用层">
+    
+        <link rel="alternate" type="application/atom+xml" title="循环不计次" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide">
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">循环不计次</h5>
+          <a href="mailto:3476146@qq.com" title="3476146@qq.com" class="mail">3476146@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/">
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives">
+                <i class="icon icon-lg icon-archives"></i>
+                文章
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags">
+                <i class="icon icon-lg icon-tags"></i>
+                标签页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories">
+                <i class="icon icon-lg icon-th-list"></i>
+                分类页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/loopsoftp" target="_blank">
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://weibo.com/2064069792/profile?topnav=1&wvr=6&is_all=1" target="_blank">
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.jianshu.com/u/41226036b3f2" target="_blank">
+                <i class="icon icon-lg icon-link"></i>
+                简书
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">[FFMpeg]四、ffmpeg关于timebase的理解</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="Search">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">[FFMpeg]四、ffmpeg关于timebase的理解</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-06-09T08:16:12.000Z" itemprop="datePublished" class="page-time">
+  2019-06-09
+</time>
+
+
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/C/">-C++</a></li></ul>
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#一-ffmpeg的分层结构"><span class="post-toc-number">1.</span> <span class="post-toc-text">一.ffmpeg的分层结构</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1：转码"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">1：转码</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2：摄像头采集"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">2：摄像头采集</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#3：播放器"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">3：播放器</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#二-ffmpeg中的timebase是什么"><span class="post-toc-number">2.</span> <span class="post-toc-text">二.ffmpeg中的timebase是什么</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三-ffmpeg中分层结构和timebase的关系"><span class="post-toc-number">3.</span> <span class="post-toc-text">三.ffmpeg中分层结构和timebase的关系</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#1：举几个常用的ffmpeg的timebase例子"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">1：举几个常用的ffmpeg的timebase例子</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2：ffmpeg关于分层结构timebase的转换过程"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">2：ffmpeg关于分层结构timebase的转换过程</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考链接"><span class="post-toc-number">4.</span> <span class="post-toc-text">参考链接:</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-FFMpeg编程系列-四、ffmpeg关于timebase的理解" class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">[FFMpeg]四、ffmpeg关于timebase的理解</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-06-09 16:16:12" datetime="2019-06-09T08:16:12.000Z" itemprop="datePublished">2019-06-09</time>
+
+            
+	<ul class="article-category-list"><li class="article-category-list-item"><a class="article-category-list-link" href="/categories/C/">-C++</a></li></ul>
+
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style="display:none">
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="一-ffmpeg的分层结构"><a href="#一-ffmpeg的分层结构" class="headerlink" title="一.ffmpeg的分层结构"></a>一.ffmpeg的分层结构</h2><p>写这篇文章的时候先把ffmpeg分层问题大致说明一下，我们按照最常见的  “转码程序” 和 “摄像头采集” 以及 “播放器” 三个模型总结。</p>
+<h3 id="1：转码"><a href="#1：转码" class="headerlink" title="1：转码"></a>1：转码</h3><p>转码基本流程：flv格式数据–&gt;h264/aac数据–&gt;yuv/pcm数据–&gt;h264/aac数据–&gt;mp4格式数据。<br>a：我们把flv格式数据或者mp4格式数据这一层叫做mux/demux层或者复用层有些人习惯于叫做封装层，这里叫做mux/demux层下面同理。<br>b：我们把h264/aac数据这一层叫做编解码层或者codec/decode，这里叫做codec/decode层下面同理。<br>c：我们把yuv/pcm数据这一层叫做原始数据层或者Raw data 层，这里叫做Raw data层下面同理。</p>
+<h3 id="2：摄像头采集"><a href="#2：摄像头采集" class="headerlink" title="2：摄像头采集"></a>2：摄像头采集</h3><p>摄像头采集基本流程：yuv/pcm数据–&gt;h264/aac数据–&gt;flv格式数据。<br>a：我们把yuv/pcm数据这一层叫做原始数据层或者Raw data 层，这里叫做Raw data层下面同理。<br>b：我们把h264/aac数据这一层叫做编解码层或者codec，这里叫做codec层下面同理。<br>c：我们把flv格式数据这一层叫做mux层或者复用层有些人习惯于叫做封装层，这里叫做mux层下面同理。</p>
+<h3 id="3：播放器"><a href="#3：播放器" class="headerlink" title="3：播放器"></a>3：播放器</h3><p>播放器基本流程：flv格式数据–&gt;h264/aac数据–&gt;yuv/pcm数据。<br>a：我们把flv格式数据这一层叫做demux层或者复用层有些人习惯于叫做封装层，这里叫做demux层下面同理。<br>b：我们把h264/aac数据这一层叫做编解码层或者decode，这里叫做decode层下面同理。<br>c：我们把yuv/pcm数据这一层叫做原始数据层或者Raw data 层，这里叫做Raw data层下面同理。</p>
+<hr>
+<p>从上面的三个最常用模型不难看出也可以说总结出ffmpeg基本把数据或者说结构分为了 “mux/demux层”也就是ffmpeg中的AVStream<br>“codec/decode层” 也就是ffmpeg中的AVCodec “Raw data 层”这个也在AVStream?中存放着（如果是自己填写的例如ios或者android获取当前毫秒时间的可以单独放置到一个timebse的结构体中），这个。各位看官对这个分层有了大致的了解之后我们再说分层对timebase的影响。</p>
+<h2 id="二-ffmpeg中的timebase是什么"><a href="#二-ffmpeg中的timebase是什么" class="headerlink" title="二.ffmpeg中的timebase是什么"></a>二.ffmpeg中的timebase是什么</h2><p>1：简单来讲ffmpeg的timebase是为了解决当时间戳是小数的时候转化为整数和为了更好的做分层结构而设置的一种机制。</p>
+<p>2：ffmpeg的timebse我们可以理解为单位，比如米，毫秒，秒，千克这些都是单位，但这个timebse有时候不是我们日常中能见到的单位，举个例子ffmpeg本身是以秒为基准的，1秒= 1000毫秒，那如果timebse是1:1很好理解是秒的单位，如果timebase是1:1000也很好理解是毫秒单位，但如果timebase是1:25呢，我们的常用单位就解释不了了，这要是很多人的误区。</p>
+<h2 id="三-ffmpeg中分层结构和timebase的关系"><a href="#三-ffmpeg中分层结构和timebase的关系" class="headerlink" title="三.ffmpeg中分层结构和timebase的关系"></a>三.ffmpeg中分层结构和timebase的关系</h2><h3 id="1：举几个常用的ffmpeg的timebase例子"><a href="#1：举几个常用的ffmpeg的timebase例子" class="headerlink" title="1：举几个常用的ffmpeg的timebase例子"></a>1：举几个常用的ffmpeg的timebase例子</h3><p>a：mux/demux层的timebase，flv，MP4等一般是1:1000，ts一般是1:90<em>1000 。<br>b：codec/decode层timebase，h264随着帧率变化例如1:25 aac根据采样率变化例如1:44100。<br>c：Raw data 层的timebase有很多变化比如1:1000</em>1000 或1:1000等等</p>
+<h3 id="2：ffmpeg关于分层结构timebase的转换过程"><a href="#2：ffmpeg关于分层结构timebase的转换过程" class="headerlink" title="2：ffmpeg关于分层结构timebase的转换过程"></a>2：ffmpeg关于分层结构timebase的转换过程</h3><p>a：转码模型<br>首先按照分层结构获取到demux层的timebase将flv数据也就是demux层的timebase转换为codec层的timebase。<br><code>picture-&gt;pts = av_rescale_q_rnd(picture-&gt;pts,streams-&gt;time_base,streams-&gt;decodectext-&gt;time_base,AV_ROUND_NEAR_INF);</code><br>然后将decode层的timebase转换成codec层（这两个同层但也需要转换）的timebase，这里有个问题Raw data 层的timebase可以略过，可以直接从decode转换为coedec，Raw data 层的timebse在摄像头采集和播放器的时候会用到。<br><code>picture-&gt;pts = av_rescale_q_rnd(picture-&gt;pts,streams-&gt;decodectext-&gt;time_base,streams-&gt;codectext-&gt;time_base, AV_ROUND_NEAR_INF);</code><br>最后将codec层的timebase转换为mux层的timebase。<br><code>picture-&gt;pts = av_rescale_q_rnd(picture-&gt;pts,streams-&gt;codectext-&gt;time_base,streams-&gt;time_base,AV_ROUND_NEAR_INF);</code></p>
+<p>b：采集模型<br>首先获取到Raw data 层的timebase如果是windows的可以从streams的timebase中读取，ios和android可以自己单独写个timebase结构体用于转换，将获取到的timebase转换为codec层的timebase。<br><code>picture-&gt;pts = av_rescale_q_rnd(picture-&gt;pts,timebase_in,streams-&gt;codectext-&gt;time_base, AV_ROUND_NEAR_INF);</code><br>然后将codec层的timebase转换为mux层的timebase<br><code>picture-&gt;pts = av_rescale_q_rnd(picture-&gt;pts,streams-&gt;codectext-&gt;time_base, streams-&gt;timebase,AV_ROUND_NEAR_INF);</code></p>
+<p>c：播放器模型<br>首先将demux层的timebase转换为decode层的timebase。<br><code>picture-&gt;pts = av_rescale_q_rnd(picture-&gt;pts,streams-&gt;time_base,streams-&gt;decodectext-&gt;time_base, AV_ROUND_NEAR_INF);</code><br>然后将decode层的timebase转换为播放器用的Raw data 层的timebase一般设为1:1000为了将时间戳转化为毫秒。<br><code>picture-&gt;pts = av_rescale_q_rnd(picture-&gt;pts,streams-&gt;decodectext-&gt;time_base,1:1000, AV_ROUND_NEAR_INF);</code></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接:"></a>参考链接:</h2><p><a href="https://blog.csdn.net/zhuweigangzwg/article/details/64919706" target="_blank" rel="noopener">https://blog.csdn.net/zhuweigangzwg/article/details/64919706</a><br><a href="https://www.jianshu.com/p/bf323cee3b8e" target="_blank" rel="noopener">https://www.jianshu.com/p/bf323cee3b8e</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    Last updated: <time datetime="2019-06-09T08:42:19.452Z" itemprop="dateUpdated">2019-06-09 16:42:19</time>
+</span><br>
+
+
+        
+        一杯茶，一包烟，坐一天
+        
+    </div>
+    
+    <footer>
+        <a href="http://www.loop.wiki">
+            <img src="/img/avatar.png" alt="循环不计次">
+            循环不计次
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/FFMpeg/">FFMpeg</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.loop.wiki/2019/06/09/FFMpeg编程系列-四、ffmpeg关于timebase的理解/&title=《[FFMpeg]四、ffmpeg关于timebase的理解》 — 循环不计次&pic=http://www.loop.wiki/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.loop.wiki/2019/06/09/FFMpeg编程系列-四、ffmpeg关于timebase的理解/&title=《[FFMpeg]四、ffmpeg关于timebase的理解》 — 循环不计次&source=C++、Elanguage的分享天地" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.loop.wiki/2019/06/09/FFMpeg编程系列-四、ffmpeg关于timebase的理解/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[FFMpeg]四、ffmpeg关于timebase的理解》 — 循环不计次&url=http://www.loop.wiki/2019/06/09/FFMpeg编程系列-四、ffmpeg关于timebase的理解/&via=http://www.loop.wiki" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.loop.wiki/2019/06/09/FFMpeg编程系列-四、ffmpeg关于timebase的理解/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/06/09/FFMpeg编程系列-三、数据结构简介/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">[FFMpeg编程系列]三、数据结构简介</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Valine Comments -->
+    <div class="comments vcomment" id="comments"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+    <script src="//unpkg.com/valine@latest/dist/Valine.min.js"></script>
+    <!-- Valine Comments script -->
+    <script>
+        var GUEST_INFO = ['nick','mail','link'];
+        var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+          return GUEST_INFO.indexOf(item) > -1
+        });
+        new Valine({
+            el: '#comments',
+            notify: 'true' == 'true',
+            verify: 'false' == 'true',
+            appId: "m2VYBGHEWzFB1tdeBGIuavMW-gzGzoHsz",
+            appKey: "AJnYolwlQ1HWn15Jn9a7iyHV",
+            avatar: "mm",
+            placeholder: "Just go go",
+            guest_info: guest_info.length == 0 ? GUEST_INFO : guest_info,
+            pageSize: "10"
+        })
+    </script>
+    <!-- Valine Comments end -->
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check" data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style="display:none">
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style="display:none">
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>This blog is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>循环不计次 &copy; 2018 - 2019</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://www.loop.wiki/2019/06/09/FFMpeg编程系列-四、ffmpeg关于timebase的理解/&title=《[FFMpeg]四、ffmpeg关于timebase的理解》 — 循环不计次&pic=http://www.loop.wiki/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://www.loop.wiki/2019/06/09/FFMpeg编程系列-四、ffmpeg关于timebase的理解/&title=《[FFMpeg]四、ffmpeg关于timebase的理解》 — 循环不计次&source=C++、Elanguage的分享天地" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://www.loop.wiki/2019/06/09/FFMpeg编程系列-四、ffmpeg关于timebase的理解/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[FFMpeg]四、ffmpeg关于timebase的理解》 — 循环不计次&url=http://www.loop.wiki/2019/06/09/FFMpeg编程系列-四、ffmpeg关于timebase的理解/&via=http://www.loop.wiki" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://www.loop.wiki/2019/06/09/FFMpeg编程系列-四、ffmpeg关于timebase的理解/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPYAAAD2CAAAAADAeSUUAAADL0lEQVR42u3ayW7bUBAEQP//TzvXAA7p7hkGkJ6KJ4HWwqIAt2b5+oqP77+On+d/Pr46c/XO9+9w9en5pwwPbGxs7Ddhf98eLTt5Zg67v57kGi5vGTY2NvZx7Dxa7m/KfZwk+DbM7l91eR4bGxv7g9ltbCTReB+TydeAjY2Njb1v97RlSR51eZGDjY2N/cnsTczMCoy2/Gjf87FeGjY2NvbLs/Op6Os//i/zbWxsbOwXZs/aQLNVnnx9px0J1wpsbGzsg9h5ALQ/7jct/tkAuL6h2NjY2EezZz/623Z/22Zq20O/vBYbGxv7CPaz5cezqzztjXtsHoKNjY39tuw88Z69uHbEOwvOfyQ2NjY29tHstn0/i71Zc+r+s6Lz2NjY2Aex8zHqftTaXtYsROvhATY2NvZx7PzM5ta0zf3kGobPxMbGxj6I/VQjfl+u7IfN7eABGxsb+33ZSfC08TYrZtqypF39KWbR2NjY2G/Fzldw2kJi1rIf5u3oi8TGxsY+gz1r388KlU2RkxQbRZsJGxsb+yB2HgBtRCVj2vZWzr4GbGxs7M9hz5r7yTC4Hbi20dUuDGFjY2OfxE7WazarObNCpb2SerKNjY2NfRB7E06zAJu1ltoYi94NGxsb+wj2rLRIImSzAZrH2zCVsLGxsT+G/VQRstl+bGMyijdsbGzs49j7Fvy+0b9fxynWdLCxsbGPY+dt+s0C5eYm5s2maHSNjY2NfRw7aQnt20bt2KCNw6Ipho2NjX0cezYkmJUibWRuovTySrCxsbEPYuft+0285Q2mZ5eBsLGxsT+HnZQTeaO/HfEmBUw+NihGCNjY2NhHs2fLjrOLyIuQ2XropQIbGxv7UPZsOaZt2T/7nOGBjY2NfQR7s0zz1IXmbf18oafeVMLGxsZ+W/b+f/5m3ScpeDYhtw9mbGxs7Hdhty34trDJx7qztZvh2AAbGxv7OPZTRcJ9MdAu+mwSOBoPYGNjY38kO2/u5I2eNq7ax5cdNWxsbOyPZO//OhsezIqiy5uIjY2NfRy7LRiSscFmDLAvcn65idjY2NgHsdswmA0DZu2kWVEUBRg2Njb2Cew/PBvPqz3OcjUAAAAASUVORK5CYII=" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+lazyScripts.push('//s95.cnzz.com/z_stat.php?id=1261691942&web_id=1261691942')
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '死鬼去哪里了！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
